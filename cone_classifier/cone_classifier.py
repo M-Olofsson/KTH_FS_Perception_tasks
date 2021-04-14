@@ -2,6 +2,9 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 
+"""File path to the directory with cone images"""
+file_path = r'//home/mattias/KTH_FS_Perception_tasks/cone_classifier/resources/'
+
 class Cone:
     """Cone objects with img as numpy array, and color string label"""
     def __init__(self, img, color):
@@ -10,7 +13,6 @@ class Cone:
 
 def main():
     blue_cones, yellow_cones = read_imgs()
-    print(len(blue_cones))
     correct_blue_count = classify_cones(blue_cones)
     correct_yellow_count = classify_cones(yellow_cones)
     color = np.array(['Blue','Yellow'])
@@ -23,7 +25,6 @@ def read_imgs():
     blue_cones = []
     yellow_cones = []
 
-    file_path = r'//home/mattias/ComputerVision/cone_classifier/resources/'
     for i in range(15):
         file_name = file_path+'blue_'+str(i)+'.png'
         img = cv2.imread(file_name)
@@ -53,8 +54,6 @@ def classify_cones(cones):
 
     """Classify each cone"""
     for cone in cones:
-        plt.imshow(cone.img[:, :, ::-1])
-        plt.show()
         img_hsv = cv2.cvtColor(cone.img, cv2.COLOR_BGR2HSV)
         blue_mask = cv2.inRange(img_hsv, lower_blue, upper_blue)
         yellow_mask = cv2.inRange(img_hsv, lower_yellow, upper_yellow)
